@@ -32,6 +32,8 @@
 		367977BC2FA1AB9400DFFBFB /* TestsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsView.swift; sourceTree = "<group>"; };
 		367977BE2FA1CD6800DFFBFB /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		367977C02FA2253B00DFFBFB /* EditQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditQuestionView.swift; sourceTree = "<group>"; };
+		368606BD2FA2FFD200B78938 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		368606BE2FA3033B00B78938 /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,8 @@
 		3679779A2FA0C68700DFFBFB = {
 			isa = PBXGroup;
 			children = (
+				368606BD2FA2FFD200B78938 /* README.md */,
+				368606BE2FA3033B00B78938 /* LICENSE.md */,
 				367977A52FA0C68700DFFBFB /* PTest */,
 				367977A42FA0C68700DFFBFB /* Products */,
 			);
