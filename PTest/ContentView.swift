@@ -18,6 +18,8 @@ struct ContentView: View {
     
     @State private var isSheet = false
     @State private var selection = Item()
+    @State private var isShowAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         NavigationView {
@@ -25,8 +27,8 @@ struct ContentView: View {
                 ForEach(items) { item in
                     NavigationLink {
                         NavigationView {
-                            QuestionView(title: item.title!, context: item.content!)
-                                .navigationTitle(item.title!)
+                            QuestionView(title: item.title ?? "Untitled test", context: item.content ?? "")
+                                .navigationTitle(item.title ?? "Untitled test")
                                 .padding(10)
                                 .toolbar {
                                     ToolbarItem {
@@ -38,12 +40,12 @@ struct ContentView: View {
                                         }
                                     }
                                 }
-                            TestsView(tests: item.tests!)
+                            TestsView(tests: item.tests ?? "#1INP: #1OUT: ")
                                 .id(item.tests)
                         }
                     } label: {
                         HStack {
-                            Text(item.title!)
+                            Text(item.title ?? "Untitled test")
                             Spacer()
                             Button {
                                 deleteItems(item)
@@ -59,7 +61,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem {
                     Button {
-                        addItem(content: "Use edit button to type the content.  \nThe format of the tests:  \n```#1INP:XXX#1OUT:XXX#2INP:XXX#2OUT:XXX...```  \nFor example:  \n```#1INP:12#1OUT:4#2INP:30#2OUT:10```  \nWarning: Try your best to avoid using ```\\n``` in your tests.", title: "Untitled Test", tests: "#1INP:12#1OUT:4#2INP:30#2OUT:10")
+                        addItem(content: "Use edit button to type the content.  \nThe format of the tests:  \n```#1INP:XXX#1OUT:XXX#2INP:XXX#2OUT:XXX...```  \nFor example:  \n```#1INP:12#1OUT:4#2INP:30#2OUT:10```  \nWarning: Try your best to avoid using ```\\n``` in your tests. Ensure that the tests are vaild", title: "Untitled Test", tests: "#1INP:12#1OUT:4#2INP:30#2OUT:10")
                     } label: {
                         Label("Add Item", systemImage: "plus")
                     }
@@ -69,6 +71,11 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isSheet) {
             EditQuestionView(item: $selection)
+        }
+        .alert("Error", isPresented: $isShowAlert) {
+            Button("OK", role: .cancel, action: {})
+        } message: {
+            Text(alertMessage)
         }
     }
 
@@ -82,25 +89,23 @@ struct ContentView: View {
             do {
                 try viewContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                alertMessage = "Save failed: \(nsError)"
+                isShowAlert = true
             }
         }
     }
 
-    private func deleteItems(_ offsets: Item) {
+    private func deleteItems(_ item: Item) {
         withAnimation {
-            viewContext.delete(offsets)
+            viewContext.delete(item)
 
             do {
                 try viewContext.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                alertMessage = "Save failed: \(nsError)"
+                isShowAlert = true
             }
         }
     }
